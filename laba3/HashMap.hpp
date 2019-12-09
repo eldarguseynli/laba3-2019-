@@ -1,6 +1,50 @@
-﻿#include "vector.h"
+﻿/*
+ * File: hashmap.h
+ * ---------------
+ * This file exports the HashMap class, which stores a set of key-value
+ * pairs.
+ */
+
+
+#include <cstdlib>
+#include <string>
+#include <vector>
+//#include "RuMoney.h"
+
+using namespace std;
+ /*
+  * Функция: hashCode
+  * Использование: int hash = hashCode(key);
+  * --------------------------------
+  * Элементарные хеш-функции для стандартных типов
+  */
+int hashCode(const std::string & key) {
+	return key.size();
+}
+int hashCode(int key) {
+	if (key >= 0) return (int)key;
+	return -(int)key;
+}
+int hashCode(char key) {
+	if (key >= 0) return (int)key;
+	return -(int)key;
+}
+int hashCode(long key) {
+	if (key >= 0) return (int)key;
+	return -(int)key;
+}
+int hashCode(double key) {
+	if (key >= 0) return (int)key;
+	return -(int)key;
+}
+int hashCode(float key) {
+	if (key >= 0) return (int)key;
+	return -(int)key;
+}
 
 /*
+* Class: HashMap<KeyType,ValueType>
+* ---------------------------------
 * Класс Hashmap представляет данные для пользователя в качестве map(ассоциативный массив),
 * map реализован с помощью хеш-таблицы. Добавление, удаление элемента,
 * проверка на вхождение элемента в map в среднем проходят за константное время
@@ -17,49 +61,17 @@
 * а так же указатель на следующую cell в односвязном списке
 */
 
-//int hashCode(RuMoney m) { return m.rubs + m.pens; }
-/*Функции, вычисляющие хеш-код обьектов стандартных типов*/
-//int hashCode(const std::string & key) {
-//
-//}
-//int hashCode(char key) {
-//
-//}
-//int hashCode(long key) {
-//
-//}
-//int hashCode(double key) {
-//
-//}
 template <typename KeyType, typename ValueType>
 class HashMap {
-
-	int hashCode(int key) {
-		return key;
-	}
-	/*
-	* Определение констант
-	* INITIAL_BUKKET_COUNT задает количество пар значение-ключ в хеш-таблице при инициализации
-	* MAX_LOAD_PERCENTAGE задает максимальный коэффициент заполнения хеш-таблицы
-	*/
-	static const int INITIAL_BUCKET_COUNT = 101;
-	static const int MAX_LOAD_PERCENTAGE = 70;
-	
-	/*Определение типа Cell*/
-	struct Cell {
-		KeyType key;
-		ValueType value;
-		Cell *next;
-	};
-
 public:
-	
+
 	/*
 	* Конструктор: HashMap
 	* Использование: HashMap<KeyType,ValueType> map;
 	* --------------------------------------
 	* Инициализирует новую хеш-таблицу
 	*/
+
 	HashMap();
 
 	/*
@@ -67,11 +79,8 @@ public:
 	* --------------------
 	* Освобождает память, которая связана с хеш-таблицей, из текущей кучи.
 	*/
-	virtual ~HashMap();
 
-	/*Оператор присваиванивания и копирования*/
-	HashMap & operator=(const HashMap & src);
-	HashMap(const HashMap & src);
+	virtual ~HashMap();
 
 	/*
 	* Метод: size
@@ -79,6 +88,7 @@ public:
 	*-------------------------------- -
 	*Возвращает количество записей в map.
 	*/
+
 	int size() const;
 
 	/*
@@ -126,7 +136,7 @@ public:
 	* Удаляет любую запись для данного ключа из данной map.
 	*/
 
-	 void remove(KeyType key);
+	void remove(KeyType key);
 
 	/*
 	* Метод: clear
@@ -151,36 +161,94 @@ public:
 	ValueType & operator[](KeyType key);
 	ValueType operator[](KeyType key) const;
 
+	/*
+	* Метод: keyVect() 
+	* Использование: map.keyVect()
+	* ------------------------------------
+	* Возвращает вектор из ключей всех записей, хранящихся в хеш-таблице
+	*/
+	vector<KeyType> keyVect() {
+		vector<KeyType> v(numEntries);
+		int j = 0;
+		for (int i = 0; i < nBuckets; i++) {
+			for (Cell *cp = buckets[i]; cp != NULL; cp = cp->next) {
+				v[j] = cp->key; j++;
+			}
+		}
+		return v;
+	}
+	/* Private секция */
+
+	/*
+	 * Замечания по реализации:
+	 * ---------------------
+	 * Класс Hashmap реализуется с помощью хеш-таблицы,
+	 * в которой коллизии разрешаются методом цепочек
+	 */
 
 private:
 
-	/*Интансные переменные*/
-	unsigned int nBuckets;
-	unsigned int numEntries;
-	Vector<Cell*> buckets;
+	/*
+	* Определение констант
+	* INITIAL_BUKKET_COUNT задает количество пар значение-ключ в хеш-таблице при инициализации
+	* MAX_LOAD_PERCENTAGE задает максимальный коэффициент заполнения хеш-таблицы
+	*/
+
+	static const int INITIAL_BUCKET_COUNT = 101;
+	static const int MAX_LOAD_PERCENTAGE = 70;
+
+	/*Определение типа Cell*/
+
+	struct Cell {
+		KeyType key;
+		ValueType value;
+		Cell *next;
+	};
+
+	/*Инcтансные переменные*/
+
+	vector<Cell *> buckets;
+	int nBuckets;
+	int numEntries;
 
 	/*Private методы:*/
 	/*
-	* Приватный метод: createBuckets
+	* Private метод: createBuckets
 	* Использование: createBuckets(nBuckets);
 	* -------------------------------
 	* Метод createBuckets заполняет вектор bukkets пустыми односвязными списками в количестве new_nBuckets
 	* В качестве пустого односвязаного списка подразумевается, что в каждом элементе вектора bukkets
 	* будет лежать указатель Cell равный NULL
 	*/
-	void createBuckets(int new_nBuckets);
+
+	void createBuckets(int new_nBuckets) {
+		if (new_nBuckets == 0) nBuckets = 1;
+		buckets = vector<Cell *>(new_nBuckets, NULL);
+		this->nBuckets = new_nBuckets;
+		numEntries = 0;
+	}
 
 	/*
-	 * Private method: deleteBuckets
-	* Usage: deleteBuckets(buckets);
+	* Private метод: deleteBuckets
+	* Использование: deleteBuckets(buckets);
 	* ------------------------------
 	* Метод deleteBuckets удаляет все cells в односвязанных списках(bucket) из вектора buckets
 	*/
 
-	void deleteBuckets();
+	void deleteBuckets(vector <Cell *> & buckets) {
+		for (int i = 0; i < buckets.size(); i++) {
+			Cell *cp = buckets[i];
+			while (cp != NULL) {
+				Cell *np = cp->next;
+				delete cp;
+				cp = np;
+			}
+		}
+		buckets.clear();
+	}
 
 	/*
-	* Приватный метод: expandAndRehash
+	* Private метод: expandAndRehash
 	* Использование: expandAndRehash();
 	* -------------------------
 	* Метод expandAndRehash увеличивает размер хеш-таблицы(кол-во buckets),
@@ -191,19 +259,29 @@ private:
 	* чем оставлять для дальнейшего использования длинные цепочки.
 	*/
 
-	void expandAndRehash();
+	void expandAndRehash() {
+		vector<Cell *>oldBuckets = buckets;
+		createBuckets(oldBuckets.size() * 2 + 1);
+		for (int i = 0; i < oldBuckets.size(); i++) {
+			for (Cell *cp = oldBuckets[i]; cp != NULL; cp = cp->next) {
+				put(cp->key, cp->value);
+			}
+		}
+		deleteBuckets(oldBuckets);
+	}
 
 	/*
-	* Приватный метод: findkey
+	* Private метод: findkey
 	* Использование Cell *cp = findkey(bucket, key);
 	*               Cell *cp = findkey(bucket, key, parent);
 	* -------------------------
-	* Данный метод по заданому ключу и bucket ищет cell, содержащую данный ключ.
+	* Данный метод по заданому ключу и bucket ищет cell, содержащую заданный ключ.
 	* Если находит соответствующую cell, то возвращает указатель на
-	* нее, если не находит то возращает NULL
-	* 
-	*
+	* нее, если не находит то возращает NULL. Возможно также передавать третий
+	* опциональный аргумент parent - ссылку на Cell*,
+	* в которую будет записан адрес клетки, идущей перед клеткой с искомым ключом
 	*/
+
 	Cell *findCell(int bucket, KeyType key) const {
 		Cell *dummy;
 		return findCell(bucket, key, dummy);
@@ -211,59 +289,105 @@ private:
 
 	Cell *findCell(int bucket, KeyType key, Cell * & parent) const {
 		parent = NULL;
-		Cell *cp = buckets.get(bucket);
+		Cell *cp = buckets[bucket];
 		while (cp != NULL && key != cp->key) {
 			parent = cp;
 			cp = cp->next;
 		}
 		return cp;
 	}
-	/*Cell *findCell(int bucket, KeyType key) const;
-	Cell *findCell(int bucket, KeyType key, Cell * & parent) const;
-	*/
 
 	/*
 	* Приватный метод: deepcopy
 	* Использование deepcopy(map);
 	* -------------------------
-	* Метод производит deep copy переданной функции хеш-таблицы
+	* Метод производит deep copy переданной функции map
 	*/
 
-	void deepCopy(const HashMap &srs);
-	
-};
+	void deepCopy(const HashMap & src) {
+		createBuckets(src.nBuckets);
+		for (int i = 0; i < src.nBuckets; i++) {
+			for (Cell *cp = src.buckets[i]; cp != NULL; cp = cp->next) {
+				put(cp->key, cp->value);
+			}
+		}
+	}
 
-template<typename KeyType, typename ValueType>
-HashMap<typename KeyType, typename ValueType>::HashMap() {
+public:
+
+
+	/*
+	 * Deep copying поддержка
+	 * --------------------
+	 * Конструктор копирования и оператор присваиванивания определены для того, чтобы
+	 * совершать deep copy, делая этим возможным передачу, возвращение maps в качестве значения или
+	 * присваиванивание одной map другой.
+	 */
+
+	HashMap & operator=(const HashMap & src) {
+		if (this != &src) {
+			clear();
+			deepCopy(src);
+		}
+		return *this;
+	}
+
+	HashMap(const HashMap & src) {
+		deepCopy(src);
+	}
+
+};
+	
+
+/*
+* Замечания по реализации класса HashMap :
+* ---------------------------------- -
+* В этой реализации map записи хранятся в хеш - таблице.
+* hashtable хранит вектор buckets(корзинок), где каждая bucket - односвязный список
+* элементы, которого имеют один и тот же хеш - код(т.е.коллизии решаются методом цепочек)
+* Память на buckets выделяется динамически, так при большом коэффициенте загрузки
+* можно увеличить количество buckets(rehash).
+* Map должна обеспечивать производительность O(1) на операциях
+* добавления / удаления / получения элемента из хеш - таблицы.
+*/
+
+template <typename KeyType, typename ValueType>
+HashMap<KeyType, ValueType>::HashMap() {
 	createBuckets(INITIAL_BUCKET_COUNT);
 }
-template<typename KeyType, typename ValueType>
-HashMap<typename KeyType, typename ValueType>::~HashMap() {
-	deleteBuckets();
+
+template <typename KeyType, typename ValueType>
+HashMap<KeyType, ValueType>::~HashMap() {
+	deleteBuckets(buckets);
 }
-template<typename KeyType, typename ValueType>
-int HashMap<typename KeyType, typename ValueType>::size() const {
+
+template <typename KeyType, typename ValueType>
+int HashMap<KeyType, ValueType>::size() const {
 	return numEntries;
 }
-template<typename KeyType, typename ValueType>
-bool HashMap<typename KeyType, typename ValueType>::isEmpty() const {
+
+template <typename KeyType, typename ValueType>
+bool HashMap<KeyType, ValueType>::isEmpty() const {
 	return size() == 0;
 }
-template<typename KeyType, typename ValueType>
-void HashMap<typename KeyType, typename ValueType>::put(KeyType key, ValueType value) {
+
+template <typename KeyType, typename ValueType>
+void HashMap<KeyType, ValueType>::put(KeyType key, ValueType value) {
 	(*this)[key] = value;
 }
-template<typename KeyType, typename ValueType>
-ValueType HashMap<typename KeyType, typename ValueType>::get(KeyType key) const {
-	Cell* cp = findkey(hashCode(key) % nBuckets, key);
+
+template <typename KeyType, typename ValueType>
+ValueType HashMap<KeyType, ValueType>::get(KeyType key) const {
+	Cell *cp = findCell(hashCode(key) % nBuckets, key);
 	if (cp == NULL) return ValueType();
 	return cp->value;
 }
 
-template<typename KeyType, typename ValueType>
-bool HashMap<typename KeyType, typename ValueType>::containsKey(KeyType key) const {
-	return findkey(hashCode(key) % numEntries, key) != NULL;
+template <typename KeyType, typename ValueType>
+bool HashMap<KeyType, ValueType>::containsKey(KeyType key) const {
+	return findCell(hashCode(key) % nBuckets, key) != NULL;
 }
+
 template <typename KeyType, typename ValueType>
 void HashMap<KeyType, ValueType>::remove(KeyType key) {
 	int bucket = hashCode(key) % nBuckets;
@@ -280,6 +404,7 @@ void HashMap<KeyType, ValueType>::remove(KeyType key) {
 		numEntries--;
 	}
 }
+
 template <typename KeyType, typename ValueType>
 void HashMap<KeyType, ValueType>::clear() {
 	deleteBuckets(buckets);
@@ -304,88 +429,8 @@ ValueType & HashMap<KeyType, ValueType>::operator[](KeyType key) {
 	}
 	return cp->value;
 }
-template <typename KeyType, typename ValueType>
-HashMap<KeyType, ValueType> &HashMap<KeyType, ValueType>::operator=(const HashMap & src) {
-	if (this != &src) {
-		clear();
-		deepCopy(src);
-	}
-	return *this;
-}
-template <typename KeyType, typename ValueType>
-HashMap<KeyType, ValueType>::HashMap(const HashMap & src) {
-	deepCopy(src);
-}
 
 template <typename KeyType, typename ValueType>
 ValueType HashMap<KeyType, ValueType>::operator[](KeyType key) const {
 	return get(key);
-}
-
-
-
-
-
-
-
-
-
-
-template <typename KeyType, typename ValueType>
-void HashMap<KeyType, ValueType>::createBuckets(int new_nBuckets) {
-	buckets = Vector<Cell *>(new_nBuckets, NULL);
-	nBuckets = new_nBuckets;
-	numEntries = 0;
-}
-
-template <typename KeyType, typename ValueType>
-void HashMap<KeyType, ValueType>::deleteBuckets() {
-	for (int i = 0; i < buckets.size(); i++) {
-		Cell *cp = buckets[i];
-
-		while (cp != NULL) {
-			Cell *np = cp->next;
-			delete cp;
-			cp = np;
-		}
-		buckets[i] = NULL;
-	}
-}
-
-template <typename KeyType, typename ValueType>
-void HashMap<KeyType, ValueType>::expandAndRehash() {
-	Vector<Cell *>oldBuckets = buckets;
-	createBuckets(oldBuckets.size() * 2 + 1);
-	for (int i = 0; i < oldBuckets.size(); i++) {
-		for (Cell *cp = oldBuckets[i]; cp != NULL; cp = cp->next) {
-			put(cp->key, cp->value);
-		}
-	}
-	deleteBuckets(oldBuckets);
-}
-//template <typename KeyType, typename ValueType>
-//HashMap<KeyType, ValueType>::Cell *HashMap<KeyType, ValueType>::findCell(int bucket, KeyType key) const {
-//	Cell *dummy;
-//	return findCell(bucket, key, dummy);
-//}
-
-//template <typename KeyType, typename ValueType>
-//HashMap<KeyType, ValueType>::Cell *HashMap<KeyType, ValueType>::findCell(int bucket, KeyType key, Cell * & parent) const {
-//	parent = NULL;
-//	Cell *cp = buckets.get(bucket);
-//	while (cp != NULL && key != cp->key) {
-//		parent = cp;
-//		cp = cp->next;
-//	}
-//	return cp;
-//}
-
-template <typename KeyType, typename ValueType>
-void HashMap<KeyType, ValueType>::deepCopy(const HashMap & src) {
-	createBuckets(src.nBuckets);
-	for (int i = 0; i < src.nBuckets; i++) {
-		for (Cell *cp = src.buckets.get(i); cp != NULL; cp = cp->next) {
-			put(cp->key, cp->value);
-		}
-	}
 }
