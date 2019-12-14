@@ -225,7 +225,7 @@ private:
 		if (new_nBuckets == 0) nBuckets = 1;
 		buckets = vector<Cell *>(new_nBuckets, NULL);
 		this->nBuckets = new_nBuckets;
-		numEntries = 0;
+		numEntries = 0; 
 	}
 
 	/*
@@ -416,6 +416,9 @@ ValueType & HashMap<KeyType, ValueType>::operator[](KeyType key) {
 	int bucket = hashCode(key) % nBuckets;
 	Cell *cp = findCell(bucket, key);
 	if (cp == NULL) {
+		//Проверяем, нет ли слишком длинных цепочек в хеш-таблице
+		//Если есть, то есть выполнятеся условие (numEntries > MAX_LOAD_PERCENTAGE * nBuckets / 100.0)
+		//То занова строим хеш-таблицу большого размерас теми же элементами
 		if (numEntries > MAX_LOAD_PERCENTAGE * nBuckets / 100.0) {
 			expandAndRehash();
 			bucket = hashCode(key) % nBuckets;

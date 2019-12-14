@@ -7,7 +7,8 @@ using namespace std;
 
 int main() {
 
-	//Проверим как работает множества с обьектами стандартного типа
+	//Позволяем пользователю проверить правильность выполнения
+	//операций над множеством с элементами разных типов.
 	cout << "Hello, this programm checkes how successfully" << endl;
 	cout << "my class HashSet implements abstraction of set." << endl;
 	cout << "-------------------------------------------------" << "\n\n";
@@ -47,7 +48,7 @@ int main() {
 
 		cout << "Now input any 4 different(!) numbers. They will be used for tests." << endl;
 		cout << "(You can input not different numbers but set anyway will not" << endl;
-		cout << "store duplicates(as it have to), but this action can break further tests)" << endl;
+		cout << "store duplicates(as it has to), but this action can break further tests)" << endl << endl;
 		cout << "1): ";
 		cin >> n1;
 		cout << "2): ";
@@ -70,7 +71,7 @@ int main() {
 
 		cout << endl;
 		cout << "Now let's remove 3) number and after that check size of set:" << endl;
-		cout << "To remove 3), we will use method remove() and to find size - methos size(): " << endl << endl;
+		cout << "To remove 3), we will use method remove() and to find size - method size(): " << endl << endl;
 		numbers.remove(n3);
 
 		cout << "Our set (using <<): " << numbers << endl;
@@ -104,7 +105,7 @@ int main() {
 		cout << "Now we will create 3 RuMoney objects. They will be used for tests." << endl;
 		cout << "For different objects input diffrent number of rubs and pens" << endl;
 		cout << "(You can input not different rubs and pens but set anyway will not" << endl;
-		cout << "store duplicates(as it have to), but this action can break further tests)" << endl;
+		cout << "store duplicates(as it has to), but this action can break further tests)" << endl;
 
 		int r1, r2, r3, p1, p2, p3;
 
@@ -143,7 +144,7 @@ int main() {
 
 		cout << endl;
 		cout << "Now let's remove 2) object and after that check size of set:" << endl;
-		cout << "To remove 2), we will use method remove() and to find size - methos size(): " << endl << endl;
+		cout << "To remove 2), we will use method remove() and to find size - method size(): " << endl << endl;
 		moneys.remove(m2);
 
 		cout << "Our set (using <<): " << moneys << endl;

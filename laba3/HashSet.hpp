@@ -159,15 +159,6 @@ template <typename ValueType>
 HashSet<ValueType>& HashSet<ValueType>::operator=(const HashSet &src) {
 	map = src.map;
 }
-//
-//template <typename ValueType>
-//std::string HashSet<ValueType>::toString() {
-//	ostringstream os;
-//	os << *this;
-//	return os.str();
-////}
-//template <typename ValueType>
-//ostream & operator <<(ostream &os, const HashSet<ValueType> &set);
 
 template <typename ValueType>
 ostream & operator <<(ostream &os, HashSet<ValueType> &set) {
