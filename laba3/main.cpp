@@ -1,12 +1,56 @@
-﻿#include "HashSet.hpp"
-#include "RuMoney.h"
+﻿#include "RuMoney.h"
+#include "IteratorHashSet.hpp"
+
 #include <string>
+
+#pragma once
 using namespace std;
 
+#define laba_choice 1 //Выбираем для какой лаборатоной компилируем, выполняем сценарий тестов.
 #define TYPE_CHOICE 4
 
 int main() {
 
+#if laba_choice == 1
+	cout << "Now we will create 3 RuMoney objects. They will be used for tests." << endl;
+	cout << "For different objects input diffrent number of rubs and pens" << endl;
+
+	int r1, r2, r3, p1, p2, p3;
+
+	cout << endl;
+	cout << "RuMoney 1)" << endl;
+	cout << "rubs: ";
+	cin >> r1;
+	cout << "pennies: ";
+	cin >> p1;
+
+	cout << endl;
+	cout << "RuMoney 2)" << endl;
+	cout << "rubs: ";
+	cin >> r2;
+	cout << "pennies: ";
+	cin >> p2;
+
+	cout << endl;
+	cout << "RuMoney 3)" << endl;
+	cout << "rubs: ";
+	cin >> r3;
+	cout << "pennies: ";
+	cin >> p3;
+
+	RuMoney m1(r1, p1), m2(r2, p2), m3(r3, p3);
+
+	cout << endl;
+
+	HashSet<RuMoney> moneys;
+	cout << "Let's add 1), 2) and 3) RuMoney objects to our set" << endl;
+	moneys.add(m1);
+	moneys.add(m2);
+	moneys.add(m3);
+
+	cout << "Now, lets create iterator and use method begin()";
+	IteratorHashSet<RuMoney> i0 = moneys.begin();
+#else
 	//Позволяем пользователю проверить правильность выполнения
 	//операций над множеством с элементами разных типов.
 	cout << "Hello, this programm checkes how successfully" << endl;
@@ -167,4 +211,5 @@ int main() {
 		cout << "----------------------------------------------------------------------------" << endl << endl;
 		cout << "So, we have checked all required functional of HashSet." << endl;
 		cout << "These tests have to show if HashSet works successufully";
+#endif
 }

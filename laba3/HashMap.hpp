@@ -16,31 +16,31 @@ using namespace std;
   * Функция: hashCode
   * Использование: int hash = hashCode(key);
   * --------------------------------
-  * Элементарные хеш-функции для стандартных типов
-  */
-int hashCode(const std::string & key) {
-	return key.size();
-}
-int hashCode(int key) {
-	if (key >= 0) return (int)key;
-	return -(int)key;
-}
-int hashCode(char key) {
-	if (key >= 0) return (int)key;
-	return -(int)key;
-}
-int hashCode(long key) {
-	if (key >= 0) return (int)key;
-	return -(int)key;
-}
-int hashCode(double key) {
-	if (key >= 0) return (int)key;
-	return -(int)key;
-}
-int hashCode(float key) {
-	if (key >= 0) return (int)key;
-	return -(int)key;
-}
+//  * Элементарные хеш-функции для стандартных типов
+//  */
+//int hashCode(const std::string & key) {
+//	return key.size();
+//}
+//int hashCode(int key) {
+//	if (key >= 0) return (int)key;
+//	return -(int)key;
+//}
+//int hashCode(char key) {
+//	if (key >= 0) return (int)key;
+//	return -(int)key;
+//}
+//int hashCode(long key) {
+//	if (key >= 0) return (int)key;
+//	return -(int)key;
+//}
+//int hashCode(double key) {
+//	if (key >= 0) return (int)key;
+//	return -(int)key;
+//}
+//int hashCode(float key) {
+//	if (key >= 0) return (int)key;
+//	return -(int)key;
+//}
 
 /*
 * Class: HashMap<KeyType,ValueType>

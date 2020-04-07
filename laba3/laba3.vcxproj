@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AdditionalMethodsForHashSet.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HashMap.hpp" />
     <ClInclude Include="HashSet.hpp" />
+    <ClInclude Include="IteratorHashSet.hpp" />
     <ClInclude Include="RuMoney.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

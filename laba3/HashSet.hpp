@@ -12,6 +12,9 @@
 #include "HashMap.hpp"
 #include <vector>
 
+template <typename ValueType>
+class IteratorHashSet;
+
 	/*
 	* Class: HashSet<ValueType>
 	* -------------------------
@@ -116,6 +119,10 @@ public:
 
 	//std::string toString();
 
+	/*Возвращает вектор из всех элементов множества*/
+	vector<ValueType> all();
+	IteratorHashSet<ValueType> begin();
+	IteratorHashSet<ValueType> end();
 private:
 
 	HashMap<ValueType, bool> map;        /* Map(ассоциативный массив) используется для хранения множества*/
@@ -171,4 +178,5 @@ ostream & operator <<(ostream &os, HashSet<ValueType> &set) {
 	}
 	return os;
 }
+
 #endif
